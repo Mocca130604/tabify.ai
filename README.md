@@ -59,7 +59,33 @@
 
 ---
 
-## ⚡ Quick Start & Installation
+## 🐳 Instant Docker & Docker Compose (Single Command)
+
+You can launch both **Tabify.ai Frontend** and **Backend** with one single command using Docker Compose:
+
+### 1. Run CPU Mode (Default)
+```bash
+docker compose up --build
+```
+
+### 2. Run with NVIDIA GPU Acceleration (Optional)
+If your host machine has an NVIDIA GPU and NVIDIA Container Toolkit installed:
+```bash
+docker compose -f docker-compose.yml -f docker-compose.gpu.yml up --build
+```
+
+### 3. Access the Application
+- **Frontend Web UI**: [http://localhost:5173](http://localhost:5173) (or [http://localhost](http://localhost))
+- **FastAPI Backend & Swagger Docs**: [http://localhost:8000/docs](http://localhost:8000/docs)
+- **Health Check**: [http://localhost:8000/api/health](http://localhost:8000/api/health)
+
+> [!NOTE]
+> - Model weights downloaded by TabPFN (~100 MB) are automatically cached in a persistent Docker volume (`tabify_tabpfn_cache`) so they only download once.
+> - To stop the containers, press `Ctrl+C` or run `docker compose down`.
+
+---
+
+## ⚡ Manual Local Development Setup
 
 ### 1. Prerequisites
 - **Python**: 3.10, 3.11, or 3.12

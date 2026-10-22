@@ -1,0 +1,13 @@
+# Optional override for NVIDIA GPU acceleration in Docker
+# Usage: docker compose -f docker-compose.yml -f docker-compose.gpu.yml up --build
+services:
+  backend:
+    environment:
+      - TABPFN_DEVICE=cuda
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
