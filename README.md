@@ -21,47 +21,50 @@
 ## 📖 Table of Contents
 1. [Overview](#-overview)
 2. [Key Features](#-key-features)
-3. [Quick Start & Installation](#-quick-start--installation)
-4. [Step-by-Step Usage Guide (Cara Penggunaan)](#-step-by-step-usage-guide-cara-penggunaan)
-5. [Hardware Acceleration & GPU Processing Guide](#-hardware-acceleration--gpu-processing-guide)
-6. [API Reference & cURL Examples](#-api-reference--curl-examples)
-7. [Testing Suite](#-testing-suite)
-8. [Troubleshooting & FAQ](#-troubleshooting--faq)
-9. [Ringkasan Proyek (Bahasa Indonesia)](#-ringkasan-proyek-bahasa-indonesia)
-10. [License & Acknowledgments](#-license--acknowledgments)
+3. [Instant Docker & Docker Compose](#-instant-docker--docker-compose-single-command)
+4. [Manual Local Development Setup](#-manual-local-development-setup)
+5. [Step-by-Step User Guide](#-step-by-step-user-guide)
+6. [Hardware Acceleration & GPU Processing Guide](#-hardware-acceleration--gpu-processing-guide)
+7. [API Reference & cURL Examples](#-api-reference--curl-examples)
+8. [Testing Suite](#-testing-suite)
+9. [Troubleshooting & FAQ](#-troubleshooting--faq)
+10. [Architecture & Core Value Proposition](#-architecture--core-value-proposition)
+11. [License & Acknowledgments](#-license--acknowledgments)
 
 ---
 
 ## 🌟 Overview
 
-**Tabify.ai** is a privacy-first web application for instantaneous machine learning on tabular data (CSV). Powered by Prior Labs' **TabPFN v2 (Tabular Prior-data Fitted Network)**, it delivers zero-training, in-context foundation model predictions with **100% local execution** on your own hardware (CPU, NVIDIA CUDA, AMD, or Apple Silicon MPS). No external cloud APIs, no data leaks, and zero hyperparameter tuning required.
+**Tabify.ai** is a privacy-first web application designed for instantaneous, zero-training machine learning on tabular data (CSV). Powered by Prior Labs' **TabPFN (Tabular Prior-data Fitted Network)**, it delivers transformer-based in-context foundation predictions with **100% local execution** directly on your own hardware (CPU, NVIDIA CUDA, AMD ROCm/DirectML, or Apple Silicon MPS).
+
+No external cloud APIs, no subscription fees, no data leaks, and zero tedious hyperparameter tuning required.
 
 ---
 
 ## 🚀 Key Features
 
-- **100% Local Inference**: Zero data transmission to third-party cloud APIs. Your sensitive tabular data never leaves your computer.
-- **In-Context Foundation Learning**: TabPFN acts as a transformer foundation model on tables. Predictions are computed in a single forward pass without iterative training steps or loss functions.
-- **Hardware-Aware Compute Engine**:
-  - Auto-detection for **NVIDIA (CUDA)**, **AMD (ROCm / DirectML)**, **Apple Silicon (MPS)**, and **Multi-core CPU**.
-  - Interactive device switcher directly in the web UI.
-- **Four Core Machine Learning Tasks**:
-  1. **Classification** (`TabPFNClassifier`): Predict categorical labels with calibrated class probabilities.
-  2. **Regression** (`TabPFNRegressor`): Continuous numerical estimation with R², MAE, and RMSE holdout metrics.
-  3. **Time-Series Forecasting**: Automated lag and calendar feature extraction for future chronological steps.
-  4. **Unsupervised Anomaly Detection**: Multivariate density evaluation scoring and outlier flag identification.
-- **Modern Minimalist UI**:
-  - Soft, eye-friendly color palette in both Light and Dark modes.
-  - Sticky navbar with `backdrop-blur` and live engine health indicator.
-  - Prominent real-time progress bar with honest execution phases.
-  - Interactive Chart.js visualizations (actual vs. predicted curves, class distributions, outlier bars).
-  - Searchable and paginated predictions table with **1-click CSV Export**.
+- **100% Local Inference & Total Data Privacy**: Zero telemetry or cloud API calls. Your sensitive CSV data (financial statements, medical records, or proprietary metrics) never leaves your local workstation.
+- **In-Context Tabular Foundation Learning**: Operates like an LLM for tables. It computes predictions in a single forward pass without iterative training loops, gradient descent, or loss tuning.
+- **Multi-Hardware Compute Engine**:
+  - Automatic hardware detection across **NVIDIA CUDA**, **AMD ROCm / DirectML**, **Apple Silicon (MPS)**, and **Multi-core Host CPU**.
+  - Interactive hardware chip selector in the UI with dynamic fallback.
+- **Four Core Machine Learning Capabilities**:
+  1. **Classification** (`TabPFNClassifier`): Predict categorical targets with calibrated class probability distributions.
+  2. **Regression** (`TabPFNRegressor`): Continuous numerical forecasting with R², MAE, and RMSE evaluation metrics.
+  3. **Time-Series Forecasting**: Automated chronological lag extraction and rolling feature generation for future horizon steps.
+  4. **Unsupervised Anomaly Detection**: Multivariate density score evaluation with automated outlier boundary detection.
+- **Refined Swiss-Style Minimalist UI**:
+  - Soft, eye-pleasing color palette with full Light and Dark mode support.
+  - Translucent sticky header with `backdrop-blur` and real-time backend engine health indicator.
+  - Interactive multi-stage progress bar showing live execution phases.
+  - Dynamic Chart.js visualizations (Actual vs. Predicted curves, class distribution charts, anomaly score scatters).
+  - Searchable, paginated prediction table with instant **1-Click CSV Export**.
 
 ---
 
 ## 🐳 Instant Docker & Docker Compose (Single Command)
 
-You can launch both **Tabify.ai Frontend** and **Backend** with one single command using Docker Compose:
+Launch both the **Tabify.ai Frontend** and **Backend** simultaneously with a single command:
 
 ### 1. Run CPU Mode (Default)
 ```bash
@@ -69,19 +72,19 @@ docker compose up --build
 ```
 
 ### 2. Run with NVIDIA GPU Acceleration (Optional)
-If your host machine has an NVIDIA GPU and NVIDIA Container Toolkit installed:
+If your host system has an NVIDIA GPU and the NVIDIA Container Toolkit installed:
 ```bash
 docker compose -f docker-compose.yml -f docker-compose.gpu.yml up --build
 ```
 
 ### 3. Access the Application
 - **Frontend Web UI**: [http://localhost:5173](http://localhost:5173) (or [http://localhost](http://localhost))
-- **FastAPI Backend & Swagger Docs**: [http://localhost:8000/docs](http://localhost:8000/docs)
-- **Health Check**: [http://localhost:8000/api/health](http://localhost:8000/api/health)
+- **FastAPI Interactive Docs (Swagger)**: [http://localhost:8000/docs](http://localhost:8000/docs)
+- **Engine Health Check**: [http://localhost:8000/api/health](http://localhost:8000/api/health)
 
 > [!NOTE]
 > - Model weights downloaded by TabPFN (~100 MB) are automatically cached in a persistent Docker volume (`tabify_tabpfn_cache`) so they only download once.
-> - To stop the containers, press `Ctrl+C` or run `docker compose down`.
+> - To terminate the containers, press `Ctrl+C` or execute `docker compose down`.
 
 ---
 
@@ -95,26 +98,26 @@ docker compose -f docker-compose.yml -f docker-compose.gpu.yml up --build
 
 ### 2. Clone the Repository
 ```bash
-git clone https://github.com/your-username/Tabify.ai.git
-cd Tabify.ai
+git clone https://github.com/Mocca130604/tabify.ai.git
+cd tabify.ai
 ```
 
-### 3. Setup Backend Environment
+### 3. Setup Backend Virtual Environment
 ```bash
 cd backend
 python -m venv .venv
 
-# Activate on Windows:
+# Activate on Windows (PowerShell / Command Prompt):
 .venv\Scripts\activate
 
 # Activate on macOS / Linux:
 source .venv/bin/activate
 
-# Install dependencies:
+# Install backend dependencies:
 pip install -r requirements.txt
 ```
 
-### 4. Setup Frontend
+### 4. Setup Frontend Dependencies
 ```bash
 cd ../frontend
 npm install
@@ -126,7 +129,7 @@ From the repository root directory:
 # Cross-platform Python runner:
 python dev.py
 
-# Or on Windows batch script:
+# Or on Windows via batch script:
 start_dev.bat
 ```
 
@@ -136,154 +139,155 @@ start_dev.bat
 
 ---
 
-## 🎯 Step-by-Step Usage Guide (Cara Penggunaan)
+## 🎯 Step-by-Step User Guide
 
-Tabify.ai operates through an intuitive 4-step workflow:
+Tabify.ai features an intuitive, frictionless 4-step workflow:
 
 ```
 [ Step 1: Upload ] ──► [ Step 2: Configure ] ──► [ Step 3: Run ] ──► [ Step 4: Results ]
 ```
 
-### Langkah 1: Upload Dataset (Step 1)
-1. Buka aplikasi di peramban web pada alamat `http://127.0.0.1:5173`.
-2. **Unggah file CSV**:
-   - Tarik & letakkan (*drag and drop*) file `.csv` Anda ke dalam kotak upload (maksimal 10 MB).
-   - Atau klik tombol **Select CSV file** untuk memilih file dari komputer Anda.
-3. **Atau Gunakan Sample Dataset (1-Click Demo)**:
-   - **Iris Flower** &rarr; Klasifikasi bunga (150 baris, 4 fitur).
-   - **House Prices** &rarr; Regresi estimasi harga properti (50 baris, 3 fitur).
-   - **Daily Store Sales** &rarr; Forecasting penjualan harian berkala (73 hari).
-   - **Sensor Anomaly** &rarr; Deteksi anomali sensor multivariat (50 baris).
+### Step 1: Upload Dataset
+1. Open the web application at `http://127.0.0.1:5173`.
+2. **Upload your CSV file**:
+   - Drag and drop your `.csv` file into the upload dropzone (maximum size: 10 MB).
+   - Or click **Select CSV file** to choose a file from your file manager.
+3. **Or Explore Built-in Sample Datasets (1-Click Demo)**:
+   - **Iris Flower** &rarr; Multi-class botanical classification (150 rows, 4 features).
+   - **House Prices** &rarr; Real estate valuation regression (50 rows, 3 features).
+   - **Daily Store Sales** &rarr; Chronological retail revenue forecasting (73 days).
+   - **Sensor Anomaly** &rarr; Industrial IoT multivariate anomaly detection (50 rows).
 
-### Langkah 2: Konfigurasi Task & Hardware (Step 2)
-Setelah dataset dimuat, backend secara otomatis melakukan inspeksi struktur data:
-1. **Pratinjau Dataset**: Periksa 5 baris pertama data dan tipe datanya (`float64`, `int64`, `object`).
-2. **Pilih Task ML**:
-   - **Classification**: Untuk memprediksi kategori/kelas diskrit.
-   - **Regression**: Untuk memprediksi nilai angka kontinu.
-   - **Forecast**: Untuk meramalkan deret waktu masa depan (tentukan *Time Column* dan *Horizon steps*).
-   - **Anomaly**: Deteksi outlier tanpa perlu memilih target column (*unsupervised*).
-3. **Pilih Target Column**: Pilih kolom mana yang ingin diprediksi oleh model.
-4. **Pilih Compute Device (GPU / CPU)**: Pilih kartu pemrosesan yang ingin digunakan (Auto-detect, NVIDIA CUDA, AMD, Apple MPS, atau CPU).
-5. Klik tombol **Run In-Context Inference**.
+### Step 2: Configure Task & Hardware
+Once the dataset is uploaded, the backend immediately inspects the data schema:
+1. **Dataset Preview**: Inspect the first 5 rows and inferred column data types (`float64`, `int64`, `object`).
+2. **Select Machine Learning Task**:
+   - **Classification**: Predict discrete classes or categories.
+   - **Regression**: Estimate continuous numerical quantities.
+   - **Forecast**: Predict future time-series values (select *Time Column* and *Forecast Horizon*).
+   - **Anomaly**: Unsupervised outlier detection without requiring a target label.
+3. **Select Target Column**: Choose the column you want the foundation model to predict.
+4. **Choose Compute Device (GPU / CPU)**: Select your preferred execution device (Auto-detect, NVIDIA CUDA, AMD, Apple MPS, or CPU).
+5. Click **Run In-Context Inference**.
 
-### Langkah 3: Eksekusi Inferensi (Step 3)
-1. Perhatikan **Progress Bar Dinamis** di tengah layar yang bergerak secara real-time disertai persentase progres.
-2. Tahapan eksekusi:
+### Step 3: Run In-Context Inference
+1. Monitor the **Real-Time Progress Bar** with live execution milestones and percentage indicators.
+2. Inference lifecycle phases:
    - *Loading dataset & feature encoding*
    - *Running TabPFN forward pass evaluation*
    - *Compiling predictions & metrics*
-3. Waktu eksekusi lokal umumnya memakan waktu **0.2 – 1.5 detik** (tergantung ukuran baris dan hardware).
+3. Execution typically finishes in **0.1 to 1.5 seconds** depending on dataset size and active hardware.
 
-### Langkah 4: Evaluasi Hasil & Ekspor (Step 4)
-1. **3 Kartu Ringkasan KPI**:
-   - *Model Accuracy / R² Score / MAE / Anomalies Detected*
-   - *Total Predictions Evaluated*
-   - *Inference Time & Active Device*
-2. **Grafik Visual Interaktif (Chart.js)**:
-   - Kurva perbandingan nilai aktual vs prediksi.
-   - Distribusi frekuensi kelas atau sebaran skor anomali.
-3. **Tabel Hasil Prediksi**:
-   - Dilengkapi *search bar* instan dan paginasi yang rapi.
-   - Setiap baris memiliki pill badge status hasil prediksi.
-4. **Export CSV**: Klik tombol **Export CSV** di kanan atas tabel untuk mengunduh seluruh baris hasil prediksi dalam format spreadsheet.
-5. Klik **Adjust Config** untuk mengubah parameter atau **Start Over** untuk menganalisis dataset baru.
+### Step 4: Evaluate Results & Export
+1. **Three Primary KPI Summary Cards**:
+   - *Accuracy / R² Score / Mean Absolute Error / Anomalies Detected*
+   - *Total Samples Evaluated*
+   - *Inference Latency & Active Hardware Device*
+2. **Interactive Visualizations (Chart.js)**:
+   - Actual vs. Predicted trend curves for regression and forecasting.
+   - Categorical class distribution bars for classification.
+   - Anomaly severity scores and outlier distribution markers.
+3. **Interactive Predictions Table**:
+   - Integrated real-time search filter and clean pagination.
+   - Color-coded badges indicating prediction classifications and confidence scores.
+4. **CSV Export**: Click **Export CSV** in the table header to download complete prediction results.
+5. Click **Adjust Config** to refine parameters or **Start Over** to analyze a new dataset.
 
 ---
 
 ## ⚡ Hardware Acceleration & GPU Processing Guide
 
-Tabify.ai dirancang untuk memanfaatkan akselerator perangkat keras secara maksimal. Inferensi model transformer TabPFN dapat berjalan jauh lebih cepat ketika menggunakan GPU dibandingkan CPU.
+Tabify.ai is architected to leverage modern hardware accelerators. TabPFN transformer operations achieve significant acceleration when executed on dedicated GPUs compared to CPUs.
 
-### 1. Perbandingan Performa Inferensi (Benchmark)
+### 1. Inference Performance Benchmarks
 
-| Perangkat Keras | Klasifikasi (150 baris) | Regresi (50 baris) | Dataset Besar (2.000 baris) | Kebutuhan VRAM / RAM |
+| Hardware Accelerator | Classification (150 rows) | Regression (50 rows) | Large Dataset (2,000 rows) | Memory Requirement |
 | :--- | :--- | :--- | :--- | :--- |
-| **NVIDIA GPU (CUDA)** | **~0.15 detik** | **~0.10 detik** | **~1.2 detik** | &ge; 2 GB VRAM |
-| **Apple Silicon (MPS M1/M2/M3)** | **~0.25 detik** | **~0.15 detik** | **~1.8 detik** | Unified Memory |
-| **AMD GPU (ROCm / DirectML)** | **~0.30 detik** | **~0.20 detik** | **~2.1 detik** | &ge; 4 GB VRAM |
-| **CPU Multi-core (Intel / AMD)** | ~1.40 detik | ~0.60 detik | ~6.5 detik | &ge; 4 GB RAM |
+| **NVIDIA GPU (CUDA)** | **~0.15 s** | **~0.10 s** | **~1.2 s** | &ge; 2 GB VRAM |
+| **Apple Silicon (MPS M1/M2/M3/M4)** | **~0.25 s** | **~0.15 s** | **~1.8 s** | Unified Memory |
+| **AMD GPU (ROCm / DirectML)** | **~0.30 s** | **~0.20 s** | **~2.1 s** | &ge; 4 GB VRAM |
+| **Multi-core Host CPU (Intel / AMD)** | ~1.40 s | ~0.60 s | ~6.5 s | &ge; 4 GB RAM |
 
 ---
 
-### 2. Konfigurasi GPU NVIDIA (CUDA)
+### 2. NVIDIA GPU Setup (CUDA)
 
-Jika Anda memiliki GPU NVIDIA (GeForce RTX, GTX, Quadro, atau Tesla), pastikan driver NVIDIA dan PyTorch berkemampuan CUDA terpasang.
+If your machine is equipped with an NVIDIA GPU (GeForce RTX, GTX, Quadro, or Tesla), ensure NVIDIA drivers and CUDA-enabled PyTorch are installed.
 
-#### A. Verifikasi Driver NVIDIA
-Buka terminal / PowerShell dan ketik:
+#### A. Verify NVIDIA Driver
+Open your terminal or PowerShell and run:
 ```bash
 nvidia-smi
 ```
-Pastikan CUDA Version tertera (misalnya `CUDA Version: 12.x` atau `11.8`).
+Verify that your GPU name and supported CUDA version (e.g., `CUDA Version: 12.x` or `11.8`) appear in the output.
 
-#### B. Pasang PyTorch CUDA di Virtual Environment
-Masuk ke direktori backend dan jalankan perintah install sesuai versi CUDA Anda:
+#### B. Install PyTorch with CUDA in Virtual Environment
+Navigate to the `backend` directory and install the wheel matching your CUDA version:
 
 ```bash
 cd backend
 .venv\Scripts\activate   # Windows
-# atau: source .venv/bin/activate  # Linux
+# or: source .venv/bin/activate  # Linux/macOS
 
-# Untuk CUDA 12.1 / 12.4 (Rekomendasi untuk RTX 30xx, 40xx, 50xx):
+# For CUDA 12.1 / 12.4 (Recommended for modern RTX 30xx, 40xx, 50xx series):
 pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121
 
-# Untuk CUDA 11.8 (Kartu grafis generasi sebelumnya):
+# For CUDA 11.8 (Legacy GPU architectures):
 pip install torch torchvision --index-url https://download.pytorch.org/whl/cu118
 ```
 
-#### C. Verifikasi di Python
+#### C. Verify PyTorch CUDA Availability
 ```python
 python -c "import torch; print('CUDA Available:', torch.cuda.is_available(), 'Device:', torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'None')"
 ```
-Output:
+Expected output:
 ```text
-CUDA Available: True Device: NVIDIA GeForce RTX 3060
+CUDA Available: True Device: NVIDIA GeForce RTX 4070
 ```
-Backend Tabify.ai akan secara otomatis mendeteksi GPU Anda sebagai pilihan aktif default.
+Tabify.ai will automatically recognize your NVIDIA GPU and prioritize it as the default execution accelerator.
 
 ---
 
-### 3. Konfigurasi GPU AMD
+### 3. AMD GPU Setup
 
-#### A. Di Linux (ROCm)
-Jika Anda menggunakan AMD Radeon di Linux yang didukung oleh AMD ROCm:
+#### A. On Linux (ROCm)
+If you are running an AMD Radeon GPU on Linux supported by ROCm:
 ```bash
 pip install torch torchvision --index-url https://download.pytorch.org/whl/rocm6.0
 ```
 
-#### B. Di Windows (DirectML)
-Untuk pengguna AMD Radeon di Windows (RX 5000, 6000, 7000 series, atau Radeon Graphics terintegrasi):
+#### B. On Windows (DirectML)
+For AMD Radeon users on Windows (RX 5000, 6000, 7000 series, or integrated Radeon Graphics):
 ```bash
 pip install torch-directml
 ```
-Tabify.ai mendeteksi adapter DirectML dan mengarahkannya ke akselerasi grafis DirectML yang tersedia.
+Tabify.ai will detect the DirectML adapter and map inference computations accordingly.
 
 ---
 
-### 4. Konfigurasi Apple Silicon (M1 / M2 / M3 / M4)
+### 4. Apple Silicon Setup (M1 / M2 / M3 / M4)
 
-Pada komputer Apple Mac dengan chip Apple Silicon (Apple M1/M2/M3/M4):
-PyTorch secara *native* mendukung akselerasi **Metal Performance Shaders (MPS)** tanpa perlu driver tambahan.
+On Apple Mac computers powered by Apple Silicon chips:
+PyTorch provides native **Metal Performance Shaders (MPS)** hardware acceleration without requiring third-party drivers.
 
-Verifikasi di terminal macOS:
+Verify MPS availability in your macOS terminal:
 ```bash
 python3 -c "import torch; print('MPS Available:', torch.backends.mps.is_available())"
 ```
-Output:
+Expected output:
 ```text
 MPS Available: True
 ```
-Tabify.ai akan otomatis menampilkan badge **Apple MPS Active** pada navbar.
+Tabify.ai will automatically display the **Apple MPS** active badge on the navbar.
 
 ---
 
-### 5. Memilih Device Pemrosesan Melalui Web UI & API
+### 5. Selecting Compute Device via Web UI & REST API
 
-Tabify.ai menyediakan katalog perangkat keras interaktif pada **Step 2 (Configure)**:
-- **Auto (Rekomendasi)**: Memilih akselerator tercepat secara otomatis (NVIDIA CUDA &rarr; Apple MPS &rarr; AMD &rarr; CPU).
-- **Manual Switching**: Anda dapat mengklik chip hardware untuk memaksa inferensi berjalan di CPU atau GPU tertentu.
-- **REST API Switch**: Anda dapat mengganti device aktif kapan saja via HTTP POST:
+Tabify.ai provides an interactive hardware catalog in **Step 2 (Configure)**:
+- **Auto (Recommended)**: Dynamically selects the fastest available hardware accelerator (NVIDIA CUDA &rarr; Apple MPS &rarr; AMD &rarr; Host CPU).
+- **Manual Switching**: Click any detected hardware chip in the UI to force execution on a specific device.
+- **REST API Switch**: Change the active device programmatically via HTTP POST:
   ```bash
   curl -X POST "http://127.0.0.1:8000/api/device/switch?device_id=cuda"
   ```
@@ -292,13 +296,13 @@ Tabify.ai menyediakan katalog perangkat keras interaktif pada **Step 2 (Configur
 
 ## 📡 API Reference & cURL Examples
 
-FastAPI secara otomatis menyediakan dokumentasi OpenAPI interaktif di [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs).
+FastAPI automatically generates interactive OpenAPI documentation at [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs).
 
-### 1. Cek Status Kesehatan & Hardware
+### 1. Check Health & Hardware Device Catalog
 ```bash
 curl -s http://127.0.0.1:8000/api/health | jq
 ```
-Contoh Respons:
+Example Response:
 ```json
 {
   "status": "ok",
@@ -325,17 +329,17 @@ Contoh Respons:
 }
 ```
 
-### 2. Ganti Perangkat Pemrosesan (Device Switch)
+### 2. Switch Active Compute Device
 ```bash
 curl -X POST "http://127.0.0.1:8000/api/device/switch?device_id=cuda"
 ```
 
-### 3. Inspeksi Dataset CSV (`/api/inspect`)
+### 3. Inspect CSV Dataset (`/api/inspect`)
 ```bash
 curl -s -F "file=@sample_data/iris.csv" http://127.0.0.1:8000/api/inspect | jq
 ```
 
-### 4. Eksekusi Prediksi Klasifikasi (`/api/predict`)
+### 4. Execute Classification Prediction (`/api/predict`)
 ```bash
 curl -s -F "file=@sample_data/iris.csv" \
         -F "task=classification" \
@@ -343,7 +347,7 @@ curl -s -F "file=@sample_data/iris.csv" \
         http://127.0.0.1:8000/api/predict | jq
 ```
 
-### 5. Eksekusi Prediksi Regresi (`/api/predict`)
+### 5. Execute Regression Prediction (`/api/predict`)
 ```bash
 curl -s -F "file=@sample_data/house_prices.csv" \
         -F "task=regression" \
@@ -351,7 +355,7 @@ curl -s -F "file=@sample_data/house_prices.csv" \
         http://127.0.0.1:8000/api/predict | jq
 ```
 
-### 6. Eksekusi Prediksi Time-Series Forecasting
+### 6. Execute Time-Series Forecasting (`/api/predict`)
 ```bash
 curl -s -F "file=@sample_data/daily_sales.csv" \
         -F "task=forecast" \
@@ -361,7 +365,7 @@ curl -s -F "file=@sample_data/daily_sales.csv" \
         http://127.0.0.1:8000/api/predict | jq
 ```
 
-### 7. Eksekusi Unsupervised Anomaly Detection
+### 7. Execute Unsupervised Anomaly Detection (`/api/predict`)
 ```bash
 curl -s -F "file=@sample_data/sensor_anomaly.csv" \
         -F "task=anomaly" \
@@ -372,12 +376,12 @@ curl -s -F "file=@sample_data/sensor_anomaly.csv" \
 
 ## 🧪 Testing Suite
 
-Jalankan pengujian unit dan integrasi otomatis dengan `pytest`:
+Run the automated unit and integration test suite with `pytest`:
 ```bash
 backend\.venv\Scripts\pytest backend/tests/test_api.py -v
 ```
 
-Hasil pengujian mencakup seluruh skenario validasi data dan task ML:
+The test suite validates data schemas and all four machine learning operational modes:
 ```text
 backend/tests/test_api.py::test_health_endpoint PASSED                   [ 12%]
 backend/tests/test_api.py::test_inspect_csv_iris PASSED                  [ 25%]
@@ -394,30 +398,30 @@ backend/tests/test_api.py::test_predict_missing_target_for_classification PASSED
 
 ## ❓ Troubleshooting & FAQ
 
-| Masalah | Penyebab | Solusi |
+| Issue | Probable Cause | Resolution |
 | :--- | :--- | :--- |
-| **Inferensi pertama memakan waktu lebih lama** | Unduhan awal bobot model TabPFN | Saat pertama kali dijalankan, TabPFN mengunduh checkpoint model (~100 MB) dari Hugging Face ke cache lokal. Inferensi berikutnya berjalan instan dari disk. |
-| **GPU tidak terdeteksi (Fallback ke CPU)** | PyTorch yang terpasang adalah versi CPU-only | Pasang PyTorch dengan CUDA flag via `pip install torch --index-url https://download.pytorch.org/whl/cu121` seperti panduan di atas. |
-| **Port 8000 atau 5173 bentrok (*In Use*)** | Proses lain menggunakan port tersebut | Ubah port backend di `backend/.env` atau tambahkan flag port di Vite `npm run dev -- --port 5174`. |
-| **Error CSV 413 / File Too Large** | Ukuran file melebihi batas default (10 MB) | TabPFN dirancang untuk dataset hingga ~10.000 baris. Anda dapat menaikkan batas `MAX_UPLOAD_SIZE_MB` di file konfigurasi. |
-| **Out of Memory (OOM) pada GPU kecil** | Dataset sangat lebar (>300 kolom) | Aktifkan opsi **Auto-subsample** pada Step 2 atau pilih pemrosesan CPU untuk dataset dengan dimensi kolom masif. |
+| **First inference execution takes longer** | Initial TabPFN model weights download | On first run, TabPFN downloads model checkpoint weights (~100 MB) from Hugging Face into your local cache directory. All subsequent runs execute instantly from disk. |
+| **GPU is not recognized (Falls back to CPU)** | PyTorch CPU-only package is installed | Install CUDA-enabled PyTorch via `pip install torch --index-url https://download.pytorch.org/whl/cu121` as described in the GPU guide. |
+| **Port 8000 or 5173 conflict (In Use)** | Another service is using the port | Modify the backend port in `backend/.env` or specify a different Vite port using `npm run dev -- --port 5174`. |
+| **HTTP 413 / File Too Large Error** | Upload exceeds default file limit (10 MB) | TabPFN is optimized for datasets up to ~10,000 rows. You can increase `MAX_UPLOAD_SIZE_MB` in the configuration file if required. |
+| **Out-of-Memory (OOM) on smaller GPUs** | Dataset has an excessive number of columns (>300 columns) | Enable the **Auto-subsample** option in Step 2 or switch to multi-core CPU mode for massive column spaces. |
 
 ---
 
-## 🇮🇩 Ringkasan Proyek (Bahasa Indonesia)
+## 🏛️ Architecture & Core Value Proposition
 
-**Tabify.ai** adalah platform antarmuka berbasis web untuk menjalankan foundation model tabular **TabPFN (Prior Labs)** secara **100% LOKAL** tanpa ketergantungan API cloud berbayar atau server eksternal.
+Tabify.ai delivers a zero-friction paradigm for tabular data analysis:
 
-### Mengapa Tabify.ai Berbeda?
-1. **Zero-Training In-Context Learning**: Berbeda dari Random Forest atau XGBoost yang memerlukan fitting iteratif berulang-ulang, TabPFN melakukan inferensi melalui satu *forward pass* transformer langsung dari data tabel Anda.
-2. **Akselerasi Multi-Hardware**: Mendukung GPU NVIDIA CUDA, AMD ROCm / DirectML, Apple Silicon MPS, dan multi-core CPU dengan deteksi otomatis.
-3. **Privasi Total**: Data CSV pribadi, data finansial, catatan medis, atau data sensor tidak pernah dikirim ke internet; seluruh pemrosesan berlangsung di memori RAM/VRAM lokal.
-4. **Antarmuka Modern**: Dibangun dengan Vue 3, Tailwind CSS, Chart.js, palet warna *soft minimalist*, *backdrop blur navbar*, logo eksklusif, dan progress bar interaktif.
+### Why Tabify.ai Stands Out
+1. **Zero-Training In-Context Learning**: Unlike conventional tree algorithms (XGBoost, LightGBM, Random Forest) that demand iterative fitting, validation loops, and metric loss tuning, TabPFN conducts inference through a single transformer *forward pass* directly on your table context.
+2. **Multi-Hardware Flexibility**: Supports NVIDIA CUDA, AMD ROCm / DirectML, Apple Silicon MPS, and multi-threaded CPU architectures with automated detection.
+3. **Absolute Privacy Assurance**: Proprietary spreadsheets, sensitive customer records, or industrial sensor telemetries never leave your workstation.
+4. **Intuitive Engineering**: Combines a modern Vue 3 + Tailwind CSS design system with FastAPI, comprehensive OpenAPI specifications, and multi-stage Docker deployment.
 
 ---
 
 ## 📄 License & Acknowledgments
 
-- **Kode Aplikasi Tabify.ai**: Dilisensikan di bawah [Apache-2.0 License](LICENSE).
-- **TabPFN Foundation Model**: Hak cipta milik [Prior Labs](https://priorlabs.ai) di bawah lisensi evaluasi riset non-komersial.
-- **Ucapan Terima Kasih**: Terima kasih kepada tim **Prior Labs** atas riset terobosan pada fondasi model tabular in-context learning dan komunitas **Hacktoberfest**.
+- **Tabify.ai Application Code**: Distributed under the [Apache-2.0 License](LICENSE).
+- **TabPFN Foundation Model**: Copyright &copy; [Prior Labs](https://priorlabs.ai) under the non-commercial research evaluation license.
+- **Acknowledgments**: Sincere gratitude to the **Prior Labs** research team for pioneering in-context foundation models for tabular data and the global **Hacktoberfest** community.
