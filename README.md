@@ -14,7 +14,10 @@
 [![Vue](https://img.shields.io/badge/Frontend-Vue%203-4FC08D.svg)](https://vuejs.org)
 [![Vite](https://img.shields.io/badge/Vite-8.x-646CFF.svg)](https://vitejs.dev)
 [![TabPFN](https://img.shields.io/badge/Model-TabPFN_v2-10B981.svg)](https://github.com/PriorLabs/TabPFN)
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Online-success.svg)](https://dev-journalists-robertson-digital.trycloudflare.com/)
 [![Hacktoberfest](https://img.shields.io/badge/Hacktoberfest-2026-ff7a00.svg)](https://hacktoberfest.com)
+
+> 🌐 **Live Interactive Demo**: [https://dev-journalists-robertson-digital.trycloudflare.com/](https://dev-journalists-robertson-digital.trycloudflare.com/)
 
 ---
 
