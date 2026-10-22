@@ -1,0 +1,22 @@
+import vue from '@vitejs/plugin-vue'
+import tailwindcss from '@tailwindcss/vite'
+import { defineConfig } from 'vite'
+
+// https://vite.dev/config/
+export default defineConfig({
+  plugins: [
+    vue(),
+    tailwindcss(),
+  ],
+  server: {
+    port: 5173,
+    proxy: {
+      '/api': {
+        target: 'http://127.0.0.1:8000',
+        changeOrigin: true,
+        timeout: 600000,        // 10 min – matches axios client timeout for heavy TabPFN inference
+        proxyTimeout: 600000,   // 10 min – upstream socket keep-alive during model loading
+      },
+    },
+  },
+})
